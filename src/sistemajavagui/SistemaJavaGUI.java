@@ -5,6 +5,10 @@
 package sistemajavagui;
 
 import dao.ConexaoUtil;
+import dao.produtoDAO;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -16,7 +20,11 @@ public class SistemaJavaGUI {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        ConexaoUtil.getConnection().Conn();
+        try {
+            produtoDAO.delete();
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(SistemaJavaGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
 }

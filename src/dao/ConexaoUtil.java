@@ -4,7 +4,9 @@
  */
 package dao;
 
+import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 
 public class ConexaoUtil {
@@ -28,14 +30,10 @@ public class ConexaoUtil {
         }
     }
     
-    public void Conn() {
-        try {
-            // cria a classe com o driver e faz a conexão com o Banco
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            DriverManager.getConnection(URL, usuario, senha);
-            System.out.println("Conectado com Sucesso!");
-        } catch(Exception ex) {
-            System.err.println("ERRO AO CONECTAR COM O DB: \n" + ex);
-        }
+    //DriverManager para conversacao com o banco de dados
+    public Connection Conn() throws ClassNotFoundException, SQLException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        System.out.println("Conectado com Sucesso!");
+        return DriverManager.getConnection(URL, usuario, senha);
     }
 }
