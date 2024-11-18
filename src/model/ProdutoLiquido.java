@@ -9,15 +9,21 @@ package model;
  * @author Matheus
  */
 public class ProdutoLiquido extends Produto {
+    
+    private double valorFinal;
 
     public ProdutoLiquido(int id, String nome, float medida) {
         super(id, nome, medida);
     }
 
     @Override
-    public double getPreco(double valorOriginal) {
-        double valorFinal = valorOriginal + (valorOriginal * 0.10);
+    public double getPreco() { 
         return valorFinal;
+    }
+    
+    @Override
+    public void setPreco(double valorOriginal) {
+        this.valorFinal = valorOriginal + (valorOriginal * 0.10);
     }
 
     @Override

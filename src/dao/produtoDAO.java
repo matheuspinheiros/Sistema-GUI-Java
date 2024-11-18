@@ -8,6 +8,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import model.Produto;
+import model.ProdutoLiquido;
+import model.ProdutoSolido;
 
 /**
  *
@@ -15,19 +19,35 @@ import java.sql.SQLException;
  */
 public class produtoDAO {
     // estatico por que só a instancia uma vez
-    public static void read() throws ClassNotFoundException, SQLException{
+    public static ArrayList read() throws ClassNotFoundException, SQLException{
+        ArrayList<Produto> listaDeProdutos = new ArrayList();
+        Produto produto = null;
         Connection con = ConexaoUtil.getConnection().Conn(); //criou a conexão com banco de dados
         String query = "SELECT * FROM produtos WHERE 1"; // criei a Query que eu queria
         PreparedStatement stmt = con.prepareStatement(query); //preparei a Query que eu queria
         ResultSet resultado = stmt.executeQuery(); // fiz ir e voltar com resultado do DB
         
+        // laço para consultar cada produto
         while(resultado.next()) {
-            System.out.println("ID: "+ resultado.getString("id"));
-            System.out.println("NOME: "+ resultado.getString("nome"));
-            System.out.println("PREÇO: "+ resultado.getString("preco"));
+            //tem-se if para caso o produto seja solido ou liquido, pois tem uma diferença no preço e no imposto
+            if(resultado.getString("tipo").equals("solido")){
+                produto = new ProdutoSolido(
+                                resultado.getInt("id"), 
+                                resultado.getString("nome"), 
+                                resultado.getFloat("medida"));
+                produto.setPreco(resultado.getDouble("preco"));
+            } else if(resultado.getString("tipo").equals("liquido")) {
+                produto = new ProdutoLiquido(
+                                resultado.getInt("id"), 
+                                resultado.getString("nome"), 
+                                resultado.getFloat("medida"));
+                produto.setPreco(resultado.getDouble("preco"));
+            }
+            listaDeProdutos.add(produto);
         }
         
         con.close();
+        return listaDeProdutos;
     }
     
     public static void create() throws ClassNotFoundException, SQLException {

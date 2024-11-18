@@ -4,6 +4,7 @@
  */
 package sistemajavagui;
 
+import control.ProdutoControl;
 import dao.ConexaoUtil;
 import dao.produtoDAO;
 import java.sql.SQLException;
@@ -20,11 +21,13 @@ public class SistemaJavaGUI {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        ProdutoControl produtoControl = new ProdutoControl();
         try {
-            produtoDAO.delete();
+            produtoControl.addNaTabela();
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(SistemaJavaGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
+        produtoControl.showJanela();
     }
     
 }

@@ -8,6 +8,27 @@ package model;
  *
  * @author Matheus
  */
-public class ProdutoSolido {
+public class ProdutoSolido extends Produto {
+    
+    private double valorFinal;
+
+    public ProdutoSolido(int id, String nome, float medida) {
+        super(id, nome, medida);
+    }
+
+    @Override
+    public double getPreco() { 
+        return valorFinal;
+    }
+    
+    @Override
+    public void setPreco(double valorOriginal) {
+        this.valorFinal = valorOriginal + (valorOriginal * 0.10);
+    }
+
+    @Override
+    public String getTipo() {
+        return "solido";
+    }
     
 }

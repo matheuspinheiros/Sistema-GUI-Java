@@ -4,6 +4,11 @@
  */
 package view;
 
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+
 /**
  *
  * @author Matheus
@@ -118,8 +123,8 @@ public class ProdutosView extends javax.swing.JFrame {
                 .addGap(55, 55, 55)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(btnSalvar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
+                        .addComponent(btnSalvar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(85, 85, 85)
                         .addComponent(btnAtualizar)
                         .addGap(76, 76, 76)
                         .addComponent(btnApagar))
@@ -166,6 +171,7 @@ public class ProdutosView extends javax.swing.JFrame {
                 .addContainerGap(23, Short.MAX_VALUE))
         );
 
+        produtosTbl.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         produtosTbl.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
@@ -244,41 +250,6 @@ public class ProdutosView extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_tfdPesoActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ProdutosView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ProdutosView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ProdutosView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ProdutosView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ProdutosView().setVisible(true);
-            }
-        });
-    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Nome;
     private javax.swing.JButton btnApagar;
@@ -297,4 +268,70 @@ public class ProdutosView extends javax.swing.JFrame {
     private javax.swing.JTextField tfdPreco;
     private javax.swing.JLabel tipo;
     // End of variables declaration//GEN-END:variables
+
+    public JButton getBtnApagar() {
+        return btnApagar;
+    }
+
+    public void setBtnApagar(JButton btnApagar) {
+        this.btnApagar = btnApagar;
+    }
+
+    public JButton getBtnAtualizar() {
+        return btnAtualizar;
+    }
+
+    public void setBtnAtualizar(JButton btnAtualizar) {
+        this.btnAtualizar = btnAtualizar;
+    }
+
+    public JButton getBtnSalvar() {
+        return btnSalvar;
+    }
+
+    public void setBtnSalvar(JButton btnSalvar) {
+        this.btnSalvar = btnSalvar;
+    }
+
+    public JComboBox<String> getjComboBox1() {
+        return jComboBox1;
+    }
+
+    public void setjComboBox1(JComboBox<String> jComboBox1) {
+        this.jComboBox1 = jComboBox1;
+    }
+
+    public JTable getProdutosTbl() {
+        return produtosTbl;
+    }
+
+    public void setProdutosTbl(JTable produtosTbl) {
+        this.produtosTbl = produtosTbl;
+    }
+
+    public JTextField getTfdNome() {
+        return tfdNome;
+    }
+
+    public void setTfdNome(JTextField tfdNome) {
+        this.tfdNome = tfdNome;
+    }
+
+    public JTextField getTfdPeso() {
+        return tfdPeso;
+    }
+
+    public void setTfdPeso(JTextField tfdPeso) {
+        this.tfdPeso = tfdPeso;
+    }
+
+    public JTextField getTfdPreco() {
+        return tfdPreco;
+    }
+
+    public void setTfdPreco(JTextField tfdPreco) {
+        this.tfdPreco = tfdPreco;
+    }
+
+    
 }
