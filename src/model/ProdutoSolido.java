@@ -23,7 +23,7 @@ public class ProdutoSolido extends Produto {
     
     @Override
     public void setPreco(double valorOriginal) {
-        this.valorFinal = valorOriginal + (valorOriginal * 0.10);
+        this.valorFinal = valorOriginal + (valorOriginal * 0.30);
     }
 
     @Override

@@ -24,6 +24,7 @@ public class SistemaJavaGUI {
         ProdutoControl produtoControl = new ProdutoControl();
         try {
             produtoControl.addNaTabela();
+            produtoControl.novoProduto();
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(SistemaJavaGUI.class.getName()).log(Level.SEVERE, null, ex);
         }

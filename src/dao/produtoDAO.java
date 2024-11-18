@@ -50,11 +50,15 @@ public class produtoDAO {
         return listaDeProdutos;
     }
     
-    public static void create() throws ClassNotFoundException, SQLException {
+    public static void create(Produto produto) throws ClassNotFoundException, SQLException {
         Connection con = ConexaoUtil.getConnection().Conn();
         String query = "INSERT INTO produtos (nome, preco, medida, tipo) "
-                        + "VALUES ('Carne', 25.00, 1.0, 'Solido')";
-        PreparedStatement stmt = con.prepareStatement(query);
+                        + "VALUES (?, ?, ?, ?)";
+        PreparedStatement stmt = con.prepareStatement(query); // setando as variaveis com o PreparedStatement
+        stmt.setString(1, produto.getNome());
+        stmt.setDouble(2, produto.getPreco());
+        stmt.setFloat(3, produto.getMedida());
+        stmt.setString(4, produto.getTipo());
         
         stmt.execute();
         con.close();
