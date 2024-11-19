@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.event.MouseInputListener;
 import javax.swing.table.DefaultTableModel;
 import model.Produto;
@@ -69,6 +70,7 @@ public class ProdutoControl {
                 try {
                     produtoDAO.create(produto);
                     System.out.println("Produto Criado com Sucesso.");
+                    addNaTabela();    
                 } catch (Exception e) {
                     System.err.println("Houve erro ao tentar criar o Produto");
                 }
@@ -95,13 +97,13 @@ public class ProdutoControl {
                 }
 
                 if (produto != null) {
-                    // Obtendo os dados do produto diretamente do banco
-                    String nome = produto.getNome();  // Nome do produto
-                    Float medida = produto.getMedida();  // Medida do produto
+                    // Pegando os dados do produto diretamente do banco
+                    String nome = produto.getNome();  
+                    Float medida = produto.getMedida();  
                     String tipo;
                     double precoOriginal = 0.0;
 
-                    // Verifica a instância específica do produto
+                    // Verifica a instância das subclasses
                     if (produto instanceof ProdutoSolido) {
                         tipo = "solido";
                         precoOriginal = ((ProdutoSolido) produto).getValorOriginal(); // Downcast para acessar o método
@@ -114,11 +116,11 @@ public class ProdutoControl {
 
                     int indiceTipo = tipo.equals("solido") ? 0 : 1;
 
-                    // Exibe o valor original (sem imposto) no campo de preço
-                    produtosView.getTfdNome().setText(nome);  // Nome no campo de nome
+                    // Exibe o valor original no campo de preço
+                    produtosView.getTfdNome().setText(nome);  
                     produtosView.getTfdPreco().setText(String.valueOf(precoOriginal));  // Preço original (sem imposto)
-                    produtosView.getTfdMedida().setText(String.valueOf(medida));  // Medida no campo de medida
-                    produtosView.getcomBoxTipo().setSelectedIndex(indiceTipo);  // Seleciona o tipo (sólido ou líquido)
+                    produtosView.getTfdMedida().setText(String.valueOf(medida));  
+                    produtosView.getcomBoxTipo().setSelectedIndex(indiceTipo); 
                 } else {
                     System.out.println("Produto não encontrado no banco de dados.");
                 }
@@ -178,10 +180,44 @@ public class ProdutoControl {
                 try {
                     produtoDAO.update(produto);
                     System.out.println("Produto Alterado com Sucesso.");
+                    addNaTabela();
                 } catch (Exception e) {
                     System.err.println("Houve erro ao tentar alterar o Produto");
                 }
             }
         });
     }
+    
+    public void removerProduto() {
+        produtosView.getBtnApagar().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                try {
+                    produtoDAO.delete(id);
+                    addNaTabela();
+                } catch (ClassNotFoundException | SQLException ex) {
+                    Logger.getLogger(ProdutoControl.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+    }
+    
+    public void configurarBotaoSair() {
+        produtosView.getBtnSair().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int confirmacao = JOptionPane.showConfirmDialog(
+                    null,
+                    "Deseja realmente sair?",
+                    "Confirmação",
+                    JOptionPane.YES_NO_OPTION
+                );
+
+                if (confirmacao == JOptionPane.YES_OPTION) {
+                    System.exit(0); // Encerra o programa
+                }
+            }
+        });
+    }
+    
 }

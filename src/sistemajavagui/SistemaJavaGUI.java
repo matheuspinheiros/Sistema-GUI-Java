@@ -21,16 +21,32 @@ public class SistemaJavaGUI {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        ProdutoControl produtoControl = new ProdutoControl();
         try {
+            // Instanciando o controlador das funções
+            ProdutoControl produtoControl = new ProdutoControl();
+            
+            // Mostra a Tabela
             produtoControl.addNaTabela();
-            produtoControl.novoProduto();
-            produtoControl.selecionarProduto();
-            produtoControl.atualizarProduto();
+
+            // configura as funções
+            configurarProdutoControl(produtoControl);
+
+            // abre a janela principal
+            produtoControl.showJanela();
+            
         } catch (ClassNotFoundException | SQLException ex) {
+            // Loga o erro se algo falhar
             Logger.getLogger(SistemaJavaGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
-        produtoControl.showJanela();
+    }
+    
+    // metódo para separar as funções do CRUD
+    private static void configurarProdutoControl(ProdutoControl produtoControl) {
+        produtoControl.novoProduto();         // Adiciona um novo produto
+        produtoControl.selecionarProduto();   // Seleciona um produto
+        produtoControl.atualizarProduto();    // Atualiza um produto
+        produtoControl.removerProduto();      // Remove um produto
+        produtoControl.configurarBotaoSair(); // Configura o botão de sair
     }
     
 }

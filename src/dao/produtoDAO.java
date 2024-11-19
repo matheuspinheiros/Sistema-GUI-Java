@@ -84,10 +84,13 @@ public class produtoDAO {
         con.close(); // fechando conexão
     }
     
-    public static void delete() throws ClassNotFoundException, SQLException {
+    public static void delete(int id) throws ClassNotFoundException, SQLException {
         Connection con = ConexaoUtil.getConnection().Conn();
-        String query = "DELETE FROM produtos WHERE id = 1";
+        String query = "DELETE FROM produtos WHERE id = ?";
         PreparedStatement stmt = con.prepareStatement(query);
+        
+        stmt.setInt(1, id);
+        
         stmt.execute();
         con.close();
     }
@@ -102,7 +105,7 @@ public class produtoDAO {
             ResultSet resultado = stmt.executeQuery();
             
             if (resultado.next()) {
-                // preenchendo o objeto produto com os dados do banco
+                // preenchendo o objeto com os dados do banco
                 String nome = resultado.getString("nome");
                 Double preco = resultado.getDouble("preco");
                 Float medida = resultado.getFloat("medida");
