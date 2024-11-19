@@ -25,6 +25,13 @@ public class ProdutoSolido extends Produto {
     public void setPreco(double valorOriginal) {
         this.valorFinal = valorOriginal + (valorOriginal * 0.30);
     }
+    
+    @Override
+    public void setPreco(double valorOriginal, boolean diferencial) {
+        if(diferencial == true){
+            this.valorFinal = valorOriginal;
+        }
+    }
 
     @Override
     public String getTipo() {
