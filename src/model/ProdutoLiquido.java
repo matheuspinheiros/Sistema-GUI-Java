@@ -10,6 +10,7 @@ package model;
  */
 public class ProdutoLiquido extends Produto {
     
+    private double valorOriginal;
     private double valorFinal;
 
     public ProdutoLiquido(int id, String nome, float medida) {
@@ -23,13 +24,18 @@ public class ProdutoLiquido extends Produto {
     
     @Override
     public void setPreco(double valorOriginal) {
-        this.valorFinal = valorOriginal + (valorOriginal * 0.10);
+        this.valorOriginal = valorOriginal;          // Armazena o valor original
+        this.valorFinal = valorOriginal + (valorOriginal * 0.10); // Calcula o valor final
     }
     
     @Override
     public void setPreco(double valorOriginal, boolean diferencial) {
-        if(diferencial == true){
-            this.valorFinal = valorOriginal;
+        this.valorOriginal = valorOriginal; // Sempre salva o valor original
+
+        if (diferencial) {
+            this.valorFinal = valorOriginal; // Define o valor final igual ao original
+        } else {
+            this.valorFinal = valorOriginal + (valorOriginal * 0.10); // Recalcula com imposto
         }
     }
 
@@ -37,5 +43,23 @@ public class ProdutoLiquido extends Produto {
     public String getTipo() {
         return "liquido";
     }
+
+    public double getValorOriginal() {
+        return valorOriginal;
+    }
+
+    public void setValorOriginal(double valorOriginal) {
+        this.valorOriginal = valorOriginal;
+    }
+
+    public double getValorFinal() {
+        return valorFinal;
+    }
+
+    public void setValorFinal(double valorFinal) {
+        this.valorFinal = valorFinal;
+    }
+    
+    
     
 }

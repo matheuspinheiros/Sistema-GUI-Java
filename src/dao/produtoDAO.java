@@ -64,15 +64,23 @@ public class produtoDAO {
         con.close();
     }
     
-    public static void update() throws ClassNotFoundException, SQLException {
+    public static void update(Produto produto) throws ClassNotFoundException, SQLException {
         Connection con = ConexaoUtil.getConnection().Conn();
-        String query = "UPDATE produtos SET nome ='sabao',"
-                        + " preco = 1.20, "
-                        + " medida = 400.0, "
-                        + " tipo = 'solido' "
-                        + " WHERE id = 2 ";
+        String query = "UPDATE produtos SET "
+                        + " nome = ?, "
+                        + " preco = ?, "
+                        + " medida = ?, "
+                        + " tipo = ? "
+                        + " WHERE id = ? ";
         PreparedStatement stmt = con.prepareStatement(query);
-        stmt.execute();
+        
+        stmt.setString(1, produto.getNome());
+        stmt.setDouble(2, produto.getPreco());
+        stmt.setFloat(3, produto.getMedida());
+        stmt.setString(4, produto.getTipo());
+        stmt.setInt(5, produto.getId());
+        
+        stmt.executeUpdate();
         con.close(); // fechando conexão
     }
     
@@ -82,5 +90,36 @@ public class produtoDAO {
         PreparedStatement stmt = con.prepareStatement(query);
         stmt.execute();
         con.close();
+    }
+    
+    public static Produto buscarProdutoPorId(int id) throws SQLException, ClassNotFoundException {
+        Produto produto = null;
+        try {
+            Connection con = ConexaoUtil.getConnection().Conn();
+            String query = "SELECT * FROM produtos WHERE id = ?";
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setInt(1, id);
+            ResultSet resultado = stmt.executeQuery();
+            
+            if (resultado.next()) {
+                // preenchendo o objeto produto com os dados do banco
+                String nome = resultado.getString("nome");
+                Double preco = resultado.getDouble("preco");
+                Float medida = resultado.getFloat("medida");
+                String tipo = resultado.getString("tipo");
+                
+                if (tipo.equals("solido")) {
+                produto = new ProdutoSolido(id, nome, medida);
+                } else if (tipo.equals("liquido")) {
+                produto = new ProdutoLiquido(id, nome, medida);
+                }
+                produto.setPreco(preco, false);  // Definir o preço original
+            }
+        con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return produto;   
     }
 }

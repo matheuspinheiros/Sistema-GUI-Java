@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.event.MouseInputListener;
 import javax.swing.table.DefaultTableModel;
 import model.Produto;
@@ -74,33 +76,52 @@ public class ProdutoControl {
         });
     }
     
+    protected int id = -1;
     public void selecionarProduto() {
         produtosView.getProdutosTbl().addMouseListener(new MouseInputListener() {
+        
             @Override
             public void mouseClicked(MouseEvent e) {
-                // setando as variaveis da linha selecionada da tabela visual
-                int valor = (int) produtosView.getProdutosTbl().getValueAt(
-                        produtosView.getProdutosTbl().getSelectedRow(), 0); // pegue a linha selecionada
-                String nome = (String) produtosView.getProdutosTbl().getValueAt(
-                        produtosView.getProdutosTbl().getSelectedRow(), 1);
-                Double preco = (Double) produtosView.getProdutosTbl().getValueAt(
-                        produtosView.getProdutosTbl().getSelectedRow(), 2);
-                Float medida = (Float) produtosView.getProdutosTbl().getValueAt(
-                        produtosView.getProdutosTbl().getSelectedRow(), 3);
-                String tipo = (String) produtosView.getProdutosTbl().getValueAt(
-                        produtosView.getProdutosTbl().getSelectedRow(), 4);
-                int indiceTipo = -1;
-                
-                if(tipo.equals("solido")) {
-                    indiceTipo = 0;
-                } else if(tipo.equals("liquido")) {
-                    indiceTipo = 1;
+                // Setando a variavel id
+                id = (int) produtosView.getProdutosTbl().getValueAt(
+                        produtosView.getProdutosTbl().getSelectedRow(), 0); // Pega a linha selecionada
+
+                // buscando produto no banco de dados pelo id
+                Produto produto = null;
+                try {
+                    produto = produtoDAO.buscarProdutoPorId(id);
+                } catch (SQLException | ClassNotFoundException ex) {
+                    Logger.getLogger(ProdutoControl.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
-                produtosView.getTfdNome().setText(nome); // Nome no campo de nome
-                produtosView.getTfdPreco().setText(String.valueOf(preco)); // Preço no campo de preço
-                produtosView.getTfdMedida().setText(String.valueOf(medida)); // Medida no campo de medida
-                produtosView.getcomBoxTipo().setSelectedIndex(indiceTipo);
+
+                if (produto != null) {
+                    // Obtendo os dados do produto diretamente do banco
+                    String nome = produto.getNome();  // Nome do produto
+                    Float medida = produto.getMedida();  // Medida do produto
+                    String tipo;
+                    double precoOriginal = 0.0;
+
+                    // Verifica a instância específica do produto
+                    if (produto instanceof ProdutoSolido) {
+                        tipo = "solido";
+                        precoOriginal = ((ProdutoSolido) produto).getValorOriginal(); // Downcast para acessar o método
+                    } else if (produto instanceof ProdutoLiquido) {
+                        tipo = "liquido";
+                        precoOriginal = ((ProdutoLiquido) produto).getValorOriginal(); // Downcast para acessar o método
+                    } else {
+                        tipo = "desconhecido";
+                    }
+
+                    int indiceTipo = tipo.equals("solido") ? 0 : 1;
+
+                    // Exibe o valor original (sem imposto) no campo de preço
+                    produtosView.getTfdNome().setText(nome);  // Nome no campo de nome
+                    produtosView.getTfdPreco().setText(String.valueOf(precoOriginal));  // Preço original (sem imposto)
+                    produtosView.getTfdMedida().setText(String.valueOf(medida));  // Medida no campo de medida
+                    produtosView.getcomBoxTipo().setSelectedIndex(indiceTipo);  // Seleciona o tipo (sólido ou líquido)
+                } else {
+                    System.out.println("Produto não encontrado no banco de dados.");
+                }
             }
 
             @Override
@@ -133,6 +154,34 @@ public class ProdutoControl {
             //    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
             }
         });
-    }
+    }    
     
+    public void atualizarProduto() {
+        // Açao do Botão Atualizar
+        produtosView.getBtnAtualizar().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                String nome = produtosView.getTfdNome().getText();
+                String preco = produtosView.getTfdPreco().getText();
+                String medida = produtosView.getTfdMedida().getText();
+                String tipo = (String) produtosView.getcomBoxTipo().getSelectedItem();
+                Produto produto = null;
+                    
+                if(tipo.equals("Sólido")) {
+                    produto = new ProdutoSolido(id, nome, Float.parseFloat(medida));
+                    produto.setPreco(Double.parseDouble(preco), true);
+                } else if(tipo.equals("Líquido")) {
+                    produto = new ProdutoLiquido(id, nome, Float.parseFloat(medida));
+                    produto.setPreco(Double.parseDouble(preco), true);
+                }
+                
+                try {
+                    produtoDAO.update(produto);
+                    System.out.println("Produto Alterado com Sucesso.");
+                } catch (Exception e) {
+                    System.err.println("Houve erro ao tentar alterar o Produto");
+                }
+            }
+        });
+    }
 }
