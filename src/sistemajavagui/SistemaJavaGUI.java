@@ -16,10 +16,6 @@ import java.util.logging.Logger;
  * @author Matheus
  */
 public class SistemaJavaGUI {
-
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
         try {
             // Instanciando o controlador das funções
@@ -35,7 +31,7 @@ public class SistemaJavaGUI {
             produtoControl.showJanela();
             
         } catch (ClassNotFoundException | SQLException ex) {
-            // Loga o erro se algo falhar
+            // Log para erro
             Logger.getLogger(SistemaJavaGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

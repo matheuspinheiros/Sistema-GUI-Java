@@ -24,18 +24,18 @@ public class ProdutoLiquido extends Produto {
     
     @Override
     public void setPreco(double valorOriginal) {
-        this.valorOriginal = valorOriginal;          // Armazena o valor original
+        this.valorOriginal = valorOriginal; 
         this.valorFinal = valorOriginal + (valorOriginal * 0.10); // Calcula o valor final
     }
     
     @Override
     public void setPreco(double valorOriginal, boolean diferencial) {
-        this.valorOriginal = valorOriginal; // Sempre salva o valor original
+        this.valorOriginal = valorOriginal; // salva o valor original
 
         if (diferencial) {
-            this.valorFinal = valorOriginal; // Define o valor final igual ao original
+            this.valorFinal = valorOriginal;
         } else {
-            this.valorFinal = valorOriginal + (valorOriginal * 0.10); // Recalcula com imposto
+            this.valorFinal = valorOriginal + (valorOriginal * 0.10); // calcula com imposto
         }
     }
 

@@ -25,17 +25,17 @@ public class ProdutoSolido extends Produto {
     @Override
     public void setPreco(double valorOriginal) {
         this.valorOriginal = valorOriginal;          
-        this.valorFinal = valorOriginal + (valorOriginal * 0.30); // Calcula o valor final
+        this.valorFinal = valorOriginal + (valorOriginal * 0.30); // calcula o valor final
     }
     
     @Override
     public void setPreco(double valorOriginal, boolean diferencial) {
-        this.valorOriginal = valorOriginal; // Sempre salva o valor original
+        this.valorOriginal = valorOriginal; // salva o valor original
 
         if (diferencial) {
-            this.valorFinal = valorOriginal; // Define o valor final igual ao original
+            this.valorFinal = valorOriginal;
         } else {
-            this.valorFinal = valorOriginal + (valorOriginal * 0.30); // Recalcula com imposto
+            this.valorFinal = valorOriginal + (valorOriginal * 0.30); // calcula com imposto
         }
     }
 
