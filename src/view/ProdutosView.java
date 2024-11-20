@@ -155,17 +155,17 @@ public class ProdutosView extends javax.swing.JFrame {
         produtosTbl.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         produtosTbl.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Nome", "Preço", "Medida", "Tipo"
+                "ID", "Nome", "Preço Original", "Preço Calculado", "Medida", "Tipo"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {

@@ -38,10 +38,21 @@ public class ProdutoControl {
         
         // toda vez que percorrer vai adicionar uma nova linha com as colunas abaixo
         for(Produto produto : listaProdutos) {
+            double valorOriginal = 0.0;
+            double valorFinal = produto.getPreco();
+            
+            // instanceOf para pegar os valores originais das subclasses
+            if (produto instanceof ProdutoSolido) {
+                valorOriginal = ((ProdutoSolido) produto).getValorOriginal();
+            } else if (produto instanceof ProdutoLiquido) {
+                valorOriginal = ((ProdutoLiquido) produto).getValorOriginal();
+            }
+            
             produtosTblModel.addRow(new Object[] {
                 produto.getId(),
                 produto.getNome(),
-                produto.getPreco(),
+                valorOriginal, // Exibe o valor original
+                valorFinal,    // Exibe o valor final calculado
                 produto.getMedida(),
                 produto.getTipo()
             });
